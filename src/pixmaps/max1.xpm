@@ -1,0 +1,19 @@
+/* XPM */
+static char*tmax1[]={
+"12 12 4 1",
+"b c #b0b0b0",
+". c #000000",
+"a c #585858",
+"# c #ffffff",
+"...........#",
+".aaaaaaaaab#",
+".abbbbbbbbb#",
+".ab.......b#",
+".ab.......b#",
+".ab.......b#",
+".ab.bbbbb.b#",
+".ab.bbbbb.b#",
+".ab.bbbbb.b#",
+".ab.......b#",
+".bbbbbbbbbb#",
+"############"};

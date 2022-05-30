@@ -1,0 +1,48 @@
+Known Bugs / Problems:
+
+if you've found a bug, that isn't listed here, please contact me
+
+- if BorderWidth is 0, you can't change the virtual position of the root desktop
+  by moving the mouse out of it (does anybody know how to capture this event
+  without selecting for MotionEvents?).
+
+- keycodes don't work while numlock is on. if you want to change this
+  behaviour, you just have to make sure that there's a file
+    /usr/lib/X11/xkb/X0-config.keyboard
+  containing the line
+    IgnoreLockMods=NumLock+Lock
+
+- wine makes its windows override redirect by default, so treewm windows can't
+  be raised above. start wine with --managed or define an alias to avoid this.
+
+- apps that want to move themselves usually don't understand that they have
+  to set their gravity to static in order to be able to determine their static
+  gravity correctly. The current workaround is to make all windows static if
+  they request to have no title by MWM hints. No problems with that are known 
+  any more.
+
+- xprop/xkill, motif drag&drop, as well as most application that use
+  XmuClientWindow() assume that each top level window has at most one(!)
+  application window. Since this is obviously not the case in treewm,
+  several problems occur.
+  I patched xprop and xkill so that they work with treewm you can build the
+  patches by
+    $ make patches
+    $ make patchinstall
+
+- xawtv has to be patched in order to be able to calculate the visible region
+  properly (write me a mail if you want the patch)
+
+- In order to receive all VisibilityChange events programs apparently must call
+  XSelectInput for all parents of windows that may cause the visibility change.
+  So they have to select for both ReparentNotify and VisibilityChange events of
+  all their parents and parents of parents and if they receive an
+  ReparentNotify event do the same shit again. However, there's no program that
+  does so (and treewm is the only wm so far for which this is important).
+  This yields to annoying problems with TV applications like xawtv that do not
+  know when to recalculate the region they can draw on.
+  There are two workarounds: Patch the applications or select for
+  VisibitityChange Events in treewm and forward them to the children (which
+  cause high traffic and would thus slow down the wm if the clients are
+  connected via a low bandwidth line).
+  However, Expose events are generated correctly.

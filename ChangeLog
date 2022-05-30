@@ -1,0 +1,199 @@
+0.1 (22.02.2001)
+* Implemented the basics, mouse management, desktop management, snapping
+
+0.1.1 (03.03.2001, non-public release)
+* many minor bugfixes
+* fixed a serious bug in handle_xerror that already occured in aewm
+* sorry, I changed the mousebuttons
+* implemented alternative focus-policy
+* Name Desktops without a specified name "[Name of Focus]"
+* windows can be iconified (don't use this feature too much, you'd destroy
++ treewm's philosophy)
+
+0.1.2 (08.03.2001)
+* config file parsing
+* icons to start apps can be defined in the config file
+
+0.1.3 (19.03.2001)
+* minor bugfixes
+* keyboard management
+* don't change the order of the windows if they're being mapped and unmapped
+* removed struct TBEntry
+* if a desktop is closed the unmapped windows are moved to the parent desktop
+* screenshot
+* autoclose / desktops are usually closed immediately
+* maximize again if desktop is resized
+* autostart
+* change in config file: actions for a desktop are set using action*, not
++ using icon* any more
+* better pixmap management
+
+0.2.0 (26.03.2001)
+* minor bugfixes
+* pixmaps for buttons
+* make uninstall added
+* comments in config file work correctly now
+* serious bug in GetPixmap() fixed
+* allow to raise windows together with all their parents
+* quick access keys added
+* alt+tab can change the desktop now
+* you should always be able to change client by keyboard now
+* don't close treewm with alt+f4
+* Root Desktop has fixed size now
+* Options are copied if desktop is created above a window
+* The window's WM_COMMAND property can be used to identify the client
+* Options for arrangement of icons added
+* snapping works for clients whose parents have a different title height
++ correctly now
+* maximizing behaviour changed
+* background pixmaps can be set in config file
+
+0.2.1 (15.04.2001)
+* alt+tab bug fixed
+* treewm starts without config file
+* include in config file possible
+* keyboard shortcuts added
+* behaviour when desktops are unmapped improved
+* bug with WM_COMMAND fixed
+* ReDraw isn't explicitely called any more (fewer x errors occur)
+* BorderWidth now member of Sceme
+* little changes in resize
+* some changes concerning gravity
+* three stacking layers included
+* bug with configuring unmapped windows fixed
+* using a map in FindClient in order to increase performance now
+* alternative focus and raise policies introduced (see default.cfg)
+* enter events are handled when there are no other events any more
+
+0.2.2 (17.04.2001)
+* two serious bugs with focus policy fixed
+* icons are in original state after a double click on a desktop
+* DoubleClickTime can be specified in config file
+* Clicks on desktops are interpreted correctly now
+* focus events are processed when event queue is empty
+
+0.2.3 (12.06.2001)
+* key event handling improved
+* lower puts window above icons
+* RaiseOnClick improved
+* typo and a bug concerning WM_COMMAND fixed
+* treewm queues expose events
+* use icon if supplied by wmhints as a window (xterm +ai !!!)
+* AutoClose improved
+* don't close desktops with alt+f4
+* focus behavior when removing transients changed
+* resize improved
+* snap rewritten
+
+0.2.4 (30.07.2001)
+* using the mpatrol library for debugging now
+* many bugfixes, this release should be much more stable
+* Desktops can have a greater virtual size now
+* long titles are cut off internally
+* search for regex in title is possible
+* bug with shaped windows fixed
+* default border color changed to some grey
+* bugs with FocusOnClick and GrabAltClick fixed
+
+0.3.0 (02.08.2001)
+* Reparent-bug fixed
+* SaveSet-bug fixed
+* windows / desktops have menus now
+* "holes" can be made into windows (i don't know any situation in which that
++ could make sense yet but it was easy to implement)
+* gravity handling changed from the fvwm- to the wmaker-way (thanks to 
++ Dave Tweed)
+* Alt+F7 changed
+
+0.3.1 (14.08.2001)
+* Windows can be checked for WMClass hints
+* Windows can be fully maximized by Alt+Esc (experimental)
+* Virtual position of desktop can be changed by moving the mouse while first
++ button pressed or by alt + moving mouse out of desktop
+* some MwmHints are recognised
+* Windows can be automatically tiled on desktops (special thanks to Dave Tweed)
+* added command line options (-display and -f for configfile)
+
+0.3.2 (23.08.2001)
+* Focus/Raise policy is attribute of the desktop now (is that better?)
+* New menus ((Alt +) Shift + Mousebutton)
+* Sticky attribute
+* Autoscroll attribute
+* children of the root desktop are top-level windows now
+* i've decided to exchange button1 and button2 (move and change desktop)
++ reasons:
++ - move is used much more often
++ - the new behaviour much more common
++ - many people disliked the old behavior
++ - the middle mouse button (single click) can be used for something else now
+* unmapped windows sticky now
+* snap for moving desktop
+* keep the root background option
+
+0.3.3 (25.08.2001)
+* menu bug fixed
+* bug that windows weren't reparented under the right desktop fixed
+
+0.4.0 (01.03.2002)
+* many minor bugfixes
+* lower lowers within the stacking level now
+* restacking with middle mouse button improved
+* right double click lowers to bottom
+* left click on taskbar entry doesn't move mouse any more if the client is
++ maximized
+* virtual position change sets currentdesktop
+* autoresize added (can be used with tile)
+* icons are moved with the first mousebutton
+* command mode added (alt+space)
+* titlebarbuttons/taskbarbuttons and snap options added
+* option management improved
+* spec file added to be able to build rpms
+
+0.4.1 (07.03.2002)
+* coloring of titlebars and icons changed, now you can always see which window
++   is used by the command mode
+* new option hidemouse
+* many options work again in the config file
+* some internals changed (more than one ClientInfo is allowed for every Client,
++ not yet used!)
+* XFontStruct replaced by XFontSet so that multibyte characters can be
++ displayed in  window titles (thx to akira yamada)
+* Collecting windows when creating desktops and releasing windows when closing
++ them is now possible (simply press Mod1)
+* Icons can be moved, copied, deleted, named, and associated with commands now
+* Icons can execute arbitrary commands (you will have to update your .treewm
++ because action* = abc must be changed to action* = @abc to have the same
++ effect!)
+* new sample config file
+
+0.4.2 (15.03.2002)
+* Simultaneous input possible thru GrabKeyboard
+* icon bug fixed
+* xprop and xkill patched, patches are included in the realease
++ they can be compiled and installed by 'make patches' and 'make patchinstall'
+* paste in command mode implemented
+* nominimize bug fixed
+* some fullscreen bugs fixed
+* new menu entry 'Maximize to Fullscreen'
+
+0.4.3 (not officially released)
+* see http://www.informatik.uni-frankfurt.de/~polzer/treewmdurchnull/ 
+
+0.4.4 (13.10.2003)
+* autostart added again (see sample config file for an example)
+* noclose, nominimize and fixedsize can be toggled by Shift+Mouse+right Button
+* Shift+Button1 sets Always on Top, Shift+Button3 sets Always Below,
+* Shift+Button2 removes Always on Top and Always Below
+* another maximize bug fixed
+* horizontal/vertical maximize added
+* Maximize to fullscreen for desktops improved (but it's still experimental!)
+* AutoResize improved
+* menus improved
+* several minor bugfixes
+* no rpms any more, instead I'll try to make a debian package
+* new Makefile, xprop and xkill are installed as xprop-treewm and xkill-treewm
++ (thx to Rudolf Polzer)
+
+0.4.5 (15.10.2003)
+* removed the chpax line in the Makefile (I actually only put it there for
++ debugging)

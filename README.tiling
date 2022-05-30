@@ -1,0 +1,42 @@
+WHAT IT DOES
+
+it adds a new boolean to the desktop state `tileThisDesktop' which is toggled
+by a new entry in the desktop menu. if it's on, each time a client window 
+is created or destroyed within that desktop an attempt is made to calculate a
+way to place the windows so that they fit the desktop without overlapping. If
+such a layout is found the windows are moved into this layout; otherwise
+nothing happens. Because the algorithm is potentially very expensive it has a
+limit on the computations that will be performed to do this, namely
+MAX_WORK_CYCLES_ACCEPTABLE in tileRectangles.cc. (The current value doesn't
+lead to annoyable delays on my 266MHz laptop, but it may be desirable to
+tune this up or down.)
+
+WHY ALLOW TILING?
+
+I find the programs that I write often pop open various windows displaying
+graphics or plots showing how the program is doing. Sometimes they are
+within the process of the original program, otherwise they are independent
+programs connected by pipes. Because they are only transitory (i.e., closed
+when the main process finishes) and the layout often differs from run to run,
+rearranging them so they don't overlap using the mouse is a pain.
+The only nice way that I can think of to arrange this is to have a mode for
+the window manager to automatically attempt to tile windows. The nice thing
+about treewm is that this can be set as the property of a single desktop
+which is used for running the program (and hence containing those windows)
+whilst everything else is unaffected.
+
+POSSIBLE ISSUES
+
+* the code isn't as clean as it could be.
+* it looks like the layout code produces sub-optimal layouts (in terms of the
+  area of the bounding box); however in each case that i've looked at in
+  detail this was either because placing the objects in order of decreasing
+  size doesn't allow the solution to be found, or there were already so many
+  objects that the allocated number of `work cycles' ran out before the
+  optimum solution was found.
+* it's distracting that, when an application opens several windows `almost at
+  once' a new layout is computed as each additional window opens, often
+  rearranging the existing layout, rather than producting one layout at the
+  end. i can't think how to solve this though.
+
+Dave Tweed <tweed@cs.bris.ac.uk>

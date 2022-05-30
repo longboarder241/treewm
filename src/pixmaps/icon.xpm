@@ -1,0 +1,19 @@
+/* XPM */
+static char*ticon[]={
+"12 12 4 1",
+"b c #b0b0b0",
+". c #000000",
+"a c #585858",
+"# c #ffffff",
+"...........#",
+".aaaaaaaaab#",
+".abbbbbbbbb#",
+".abbbbbbbbb#",
+".abbbbbbbbb#",
+".abbbbbbbbb#",
+".abbbbbbbbb#",
+".abbbbbbbbb#",
+".ab.......b#",
+".ab.......b#",
+".bbbbbbbbbb#",
+"############"};

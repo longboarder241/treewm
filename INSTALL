@@ -1,0 +1,11 @@
+$ tar -xzf treewm_0.4.3.tar.gz
+$ cd treewm-0.4.3
+$ make
+$ make patches # if you want to patch xprop and xkill
+$ su
+$ make install
+$ cp sample.cfg ~/.treewm  # if you want to have a look at the sample
+$                             # config file (recommended)
+$ less README     # very important
+$ less ChangeLog  # if you are common to an earlier version of treewm
+$ echo Have fun!

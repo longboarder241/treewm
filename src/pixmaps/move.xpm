@@ -1,0 +1,20 @@
+/* XPM */
+static char*tmove[]={
+"12 12 5 1",
+"b c #b0b0b0",
+". c #000000",
+"c c #303030",
+"a c #585858",
+"# c #ffffff",
+"...........#",
+".aaaaaaaaab#",
+".abbbbbbbbb#",
+".ab.....bbb#",
+".ab.....bbb#",
+".ab.bbb.ccb#",
+".ab.bbb.ccb#",
+".ab.....bcb#",
+".abbbcbbbcb#",
+".abbbcccccb#",
+".bbbbbbbbbb#",
+"############"};

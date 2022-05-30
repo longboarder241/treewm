@@ -1,0 +1,19 @@
+/* XPM */
+static char*tnone1[]={
+"12 12 4 1",
+"a c #b0b0b0",
+"# c #000000",
+"b c #585858",
+". c #ffffff",
+"...........#",
+".aaaaaaaaab#",
+".a#######ab#",
+".a#######ab#",
+".a#aaaaa#ab#",
+".a#aaaaa#ab#",
+".a#aaaaa#ab#",
+".a#aaaaa#ab#",
+".a#######ab#",
+".aaaaaaaaab#",
+".bbbbbbbbbb#",
+"############"};

@@ -1,0 +1,368 @@
+treewm is a window manager that tries to implement a new concept. In addition to
+the client windows the user can create desktops which can themselves contain
+windows and desktops. By arranging the windows in such a tree the user is able
+to manage his tasks efficiently.
+
+treewm is derived by aewm
+
+Some bugs/problems are discussed in PROBLEMS
+
+Start the window manager:
+  $ X & or $ X :1 &
+  # Press CTRL+ALT+F1 or something like that
+  $ DISPLAY=:0 or $ DISPLAY=:1
+  $ xterm &
+  $ treewm
+
+If you want to start the X window system vi xdm or startx, create an
+appropriate ~/.xsession file including as last entry 
+  treewm
+
+A more advanced version of ~/.xsession could look like
+  #!/bin/bash
+  xset m 5
+  xterm &
+  xsetbg MyFavoriteWallPaper.jpg
+  treewm
+  while 
+    xmessage 'Restart Window Manager?' -buttons Yes:0,No:1 -nearmouse;
+    # Just in case treewm crashes or if you want to experiment with the
+    # configfile
+  do
+    treewm;
+  done
+
+Introduction (Read this carefully, you won't be able to understand all of
+              treewm's features otherwise):
+
+  I'm afraid not everything in this README describes the actual behaviour of
+  treewm. If you have any question about how certain things work, feel free
+  to write me a mail. Also have a look at the FAQ.
+
+  When you start treewm, you've only got one desktop and all client windows
+  are children of this root desktop. Then you can create children of this
+  desktop which can have other desktops as children themselves. You can move
+  windows and desktops arbitrarily around between desktop. Each window has a
+  titlebar. This titlebar is a taskbar as well, desktops have taskbar entries
+  for all their children.
+  Using the mouse, you can perform the following actions:
+
+  note that raise also means that the icons (if it's a desktop) are raised or
+  lowered
+
+  Titlebar - clicks:
+    left button:   move (and view window-content)
+      + Shift:     make window 'always on top'
+    double click with two different buttons: shade
+    middle button
+      + Shift:     remove 'always on top' / 'always below'
+    right button
+      + Shift:     make window 'always below' (can be combined with 'always on
+                   top' to allow to raise to the top and to lower to the
+		   bottom)
+
+  Clicks on taskbar entries:
+    left button:   raise
+    middle button: restack window directly below the window you click on next
+                   with the middle button
+      move mouse:  move window onto another desktop
+    right button:  lower
+      move mouse:  client menu
+
+  Double clicks on taskbar entries:
+    left button:   create new desktop
+      + Mod1(Alt): collect all windows under the new desktop
+    middle button: select desktop on which new windows are created if the
+                   window has the focus
+    right button:  lower window to bottom
+
+  Clicks on first button:
+    left button :  maximize (titlebar not visible)
+      + Mod1(Alt): maximize vertically (titlebar not visible)
+    middle button: maximize (titlebar visible)
+      + Mod1(Alt): maximize vertically (titlebar visible)
+    right button:  resize
+      + Mod1(Alt): maximize horizontally
+
+  Clicks on second button:
+    left button:   close window (double click kills)
+      + Mod1(Alt): release all windows to parent if this is a desktop
+    middle button: iconify
+    right button:  move
+
+  Clicks on desktop background (or on normal window while Alt is pressed, if
+                       you press Ctrl actions are performed on the parent):
+    left button:   raise
+      move mouse:  move / resize (depends on where you click)
+    middle button: see above
+      move mouse:  change position of virtual desktop
+    right button:  lower
+      move mouse:  menu
+
+  Clicks on icons
+    left button:   perform action
+      move mouse:  move icon
+    middle button: reparent icon
+      + Ctrl:      copy icon
+    right button:  raise/lower icons
+
+  Moving mouse out of a Desktop with Alt pressed and VirtualX/VirutalY set
+    or moving mouse out of a Desktop with Autoscroll on:
+    move virtual desktop by screenwidth/screenheight
+  Moving mouse with Button1 pressed:
+    change virtual position
+
+  With Shift (+ Alt) pressed, there are three menus available:
+    left button:   application menu (see default.cfg), this one is also
+                   available on the root desktop without Alt or Shift
+    middle btton:  all windows menu
+    right button:  all windows under pointer menu
+
+
+  Since release 0.4.0, there is a vi-like command mode.
+  You can access it by pressing Alt+Space, and exit it by Alt+Space again, by
+  Esc or by pressing Return when the line is empty. There are two kinds of
+  commands: one-key-commands that are executed immediately after the keys are
+  pressed and one-line-commands which are executed after the line is finished
+  by Return. Upon startup, treewm creates a fifo file called .cmdtreewm. When
+  you write commands to this file, they are executed as well as if there were
+  typed in the command mode. A list of accepted commands (not in a particular
+  order):
+
+
+  Commands for both icons and windows:
+    /regex:     Search for a window whose title matches the regular expression
+    n,N:        Find next/previous match
+    "xcmd       Execute command 'cmd' on window in register x
+    "'cmd       Execute commmand 'cmd' on root window
+    !cmd        Execute shell command cmd
+    @action     Execute action 'action'
+    $menu       Show menu 'menu'
+    :           Execute text command (see below)
+    t,T         Show current window (like Alt+Tab)
+    R           Execute the following command recursively (from root desktop)
+    ?		Open Menu
+
+  Commands for windows
+    "ad,...,"zd Put current window into register a,...,z
+    "ay,...,"zy Put current window into register a,...,z
+    d,y         Put current window into special register
+    p           Insert window from special register under current desktop
+    "ap,...,"zp Insert window from register a,...,z unter current desktop
+    Space       Raise current window
+    P           Raise current window and all parents
+    g           Goto current window
+    S           (Un)Shade
+    s           (Un)Stick
+    Ctrl+M      Maximize (Fullscreen) (experimental)
+    m           Maximize (Half)
+    M           Maximize (Full)
+    h,H,Ctrl+H  Next window (h gives Focus, H raises, Ctrl+H moves the window
+                             in the window list)
+    l,L,Ctrl+L  Previous window
+    k,K,Ctrl+K  Go/Move window up
+    j,J,Ctrl+J  Go/Move window down
+    i           Show/Hide icons
+    I           Iconify window
+    q           Close window
+    Q           Destroy window
+    c           Move window
+    C           Resize window
+    D           Create desktop
+    Ctrl+d,E    Create desktop and collect windows
+    Ctrl+q,e    Close desktop and release windows
+    x           Lower window
+    X           Lower window and parents
+    Ctrl+X      Lower window below everything
+    =name       Rename desktop to name
+    a           Make window always on top
+    A           Make window always below
+    t           Next window (like Alt+Tab)
+    T           Previous window (like Alt+Tab)
+    r           Execute the following command recursively (from current desktop)
+    o           Make Hole
+    O           Delete Hole
+
+
+  The following commands are only interpreted if an icon is currently selected
+    SPACE:      Execute the Icon
+    h,l,j,k:    Move around between icons (like in vi)
+    =:          Name the Icon
+    +:          Set the command associated with the icon
+    q:          Delete the Icon
+
+  Text Commands:
+    :bind       Binds a key to a certain command (e.g. :bind alt+q :quit)
+    :quit/:exit Exits treewm
+    :set        Sets an option to true (is inherited by children)
+    :unset      Sets an option to false (is inherited by children)
+    :toggle     Toggles an option (is inherited by children)
+    :remove     Sets an option to the default (inherit it from parent)
+    :cset       These commands set/unset the option only for the children
+    :cunset     of this desktop but leave the desktop unchanged
+    :ctoggle
+    :cremove
+    :dset       These command set/unset the option only for this desktop
+    :dunset     itself and leave the children unchanged
+    :dtoggle
+    :dremove
+
+  Options for windows and desktops:
+    shaded:          shade window
+    autoshade:       shade window when pointer is moved out of it
+                     (experimental)
+    fixedsize:       don't allow size change
+    noclose:         don't allow close
+    nominimize:      don't allow minimize
+    sticky:          window doesn't change its position when the virtual
+                     position of its parent desktop is changed
+    hastitle:        the window has a title
+    hastbentry:      the window has an entry in its parents taskbar
+    grabaltclick:    alt clicks are grabbed and interpreted by the wm
+    passfirstclick:  if the focus policy is focusonclick, ignore the first
+                     click on the window
+    titlebarbuttons: window has buttons in its titlebar
+    snap:            window snaps at other window's borders
+    above:           window is always on top
+    below:           window is always below
+    hidemouse:       don't show mouse pointer in the inside of the window
+    raiseonclick:    raise the window if you click inside of it
+    raiseonenter:    raise the window if you enter it with the mouse
+    focusonclick:    give the window the focus if you click inside of it
+    focusonenter:    give the window the focus you enter it with the mouse
+
+  Options for desktops:
+    autoscroll:      scroll if you move the pointer out of the window
+    tile:            always try to arrange windows so that they are not
+                     overlapping
+    autoresize:      automatically resize desktop
+    taskbarbuttons:  desktop has buttons on the taskbar
+    buttons:         combination of options titlebarbuttons and taskbarbuttons
+    grabkeyboard:    grab the keyboard and send the events to all children.
+                     this way you can input something on more than one window
+                     simultaneously
+                     Note that xterm by default doesn't accept this kind of
+                     input. You either have to enable Allow SendEvents in the
+                     Ctrl+Button1 Menu or in the ~/.Xdefaults file:
+                       xterm*allowSendEvents:<TAB>true
+                     Note that this is considered to be a security hole by
+                     the xterm programmers, but i don't think so because if
+                     someone has access to your X server he's already won.
+
+
+
+  With the keyboard, you move around using Mod1 + Up/Down/Left/Right (Mod1 is
+  the Alt key on x86 PCs). If you press the shift key, too, you also raise the
+  windows you are giving the focus to. If you press the control key, you can
+  move the windows between desktops. Additionally, the following keys are
+  defined:
+    Mod1 +           Esc    : (un)maximize window on whole screen
+                              (experimental)
+    Mod1 +         + Tab    : next window on lowest desktop level
+    Mod1 + Shift   + Tab    : previous window on lowest desktop level
+    Mod1 +           Space  : raise window (Control raises parents, too)
+    Mod1 + Shift   + Space  : lower window
+    Mod1 +         + PgUp   : put window on a higher stacking level
+    Mod1 +         + PgDown : put window on a lower stacking level
+    Mod1 +           F1     : execute action key1
+    Mod1 + Shift   + F1     : execute action key2
+    Mod1 +           F3     : shade
+    Mod1 + Shift   + F3     : minimize
+    Mod1 +           F4     : close window (no desktops)
+    Mod1 + Shift   + F4     : kill (destroy) window, close desktop
+    Mod1 +           F5     : move window (stop moving with space/return/esc)
+    Mod1 + Shift   + F5     : resize window
+    Mod1 +           F6     : maximize (titlebar not visible)
+    Mod1 + Shift   + F6     : maximize (titlebar visible)
+    Mod1 +           F7     : show/hide icons
+    Mod1 + Shift   + F7     : create desktop
+    Mod1 +         + F8-F12 : go to quick access window
+    Mod1 + Shift   + F8-F12 : set quick access window
+
+
+  You can define the treewm's behaviour in the file ~/.treewm. If you want to
+  choose a different config file, just run treewm with the option -f <file>.
+  Case is ignored, the following sections are interpreted:
+  [Sceme <name>]
+  [Client <name>]
+  [Action <name>]
+  [Menu <name>]
+  In these sections you can provide options by lines like
+    tag = value
+  Sections can be ended and later continued. If there are more than one values
+  for one tag, i.e.
+    tag = value1
+    tag = value2
+  the last value in the config file is used.
+  You can include the information of other sections by writing
+  include = ... Note that you can include more than one section by this line
+  and that only those pieces of information are included that were given in
+  the config file before that line.
+
+  A Sceme defines the appearance, you can set colors, fonts, pixmaps...  You
+  can have multiple scemes, each window belongs to one of these scemes then. A
+  client section contains information about a specific client, for instance the
+  window position. An action usually is an icon on a desktop which can be used
+  to start an application or a desktop (with properties defined in one of the
+  client sections). Actions with names key1, key2, key3 are used as keyboard
+  shortcuts. The menu section defines a menu you can access with Shift (+ Alt)
+  + middle button. If you don't give a section name in a sceme section, this is
+  used as a default for all windows. The only menu section currently used is
+  the one without section name.
+  The complete syntax and the defaults of .treewm can be found in the file
+  default.cfg. It is strongly recommended that you create a .treewm file. Look
+  at the files default.cfg or sample.cfg for details.
+
+  There is a problem with actions: if treewm starts a program it can't always
+  tell whether the windows that appear belong to this client. By default,
+  treewm gives the next window that is being mapped the client info specified
+  in the action. Some (but not all, unfortunately) apps set the WM_COMMAND
+  property on their windows. If you write WM_COMMAND = true in an action
+  section, the next window whose WM_COMMAND property is the string the app was
+  started with gets the client info supplied by this section. To find out which
+  apps set WM_COMMAND use xprop (if there is no WM_COMMAND but a
+  WM_CLIENT_LEADER property, type 
+    xprop -id <window id of client leader window>). 
+  Note that xprop is buggy and does not work correctly with treewm.
+  You can provide a regular expression the title is checked for by writing
+  Regex = <regex> or you can define a Class Hint the application must set
+  (almost every application provides a Class Hint, use xprop to find out about
+  that, for details, see default.cfg).
+
+
+
+  treewm is _not_ icccm-compliant and will never be.
+
+
+  There are lots of window mangers out there, so why write another one?
+
+  Well, I think I had some good ideas that are not implemented in any of the
+  big window managers. I was impressed by pwm, the only wm I saw which was
+  able to use the screen's space reasonably. But I thought window managemant
+  could become even more efficient if the windows are arranged in a tree
+  rather than in a list, with the windows being leaf nodes. Many wms use
+  multiple desktops, so you might think of treewm's concept as a kind of
+  generalization of their concepts. In my opinion, a tree is the natural way
+  of arranging tasks. For example if want to write and debug a program, you
+  can create one desktop with the editor windows, then, on the same level of
+  the hierachy you can run and test your program and if you want to have a
+  look at the source you just change the desktop and the windows are arranged
+  exactly in the same way they were before. If you feel like doing something
+  completely different you just have to create another second-level desktop in
+  which you can do what you want and later change to your old project again.
+  Another important advantage of this concept is its flexibility. There are
+  situations in which certain options (for example the focus policy) are quite
+  convenient whereas they're quite annoying in another one. So you should be
+  able not only to change them globally but also to change them only for a
+  special application, that means for a special desktop. A special window
+  attribute of some wms, the sticky attribute, occurs in treewm in a quite
+  natural way, it simply means that the window is on the parent desktop.
+
+  Looking at many different wms, I found out that no window manager has a
+  concept similar to that (though this the most important concept of X) so I
+  finally decided to create such a window manager myself.
+
+
+Sorry for my english!
+
+Thomas Jäger Thomas Jäger <TheHunter2000 at web dot de>

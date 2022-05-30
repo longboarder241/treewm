@@ -1,0 +1,20 @@
+Todo:
+
+- multibyte characters
+
+- Should fullscreen-maximized desktops have a taskbar?
+
+- redesign config file
+
+- better placement policy
+
+- Only reread config file when HUP signal is sent
+
+- snapshot (for example instead of gimp)
+
+- dialog to find windows and change attributes
+  (+ config file editor) (external app)
+
+- Write a pager
+
+- and much more

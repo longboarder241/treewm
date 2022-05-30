@@ -1,0 +1,20 @@
+/* XPM */
+static char*tresize[]={
+"12 12 5 1",
+"b c #b0b0b0",
+". c #000000",
+"c c #303030",
+"a c #585858",
+"# c #ffffff",
+"...........#",
+".aaaaaaaaab#",
+".abbbbbbbbb#",
+".ab....cccb#",
+".ab....cccb#",
+".ab.bb.bbcb#",
+".ab.bb.bbcb#",
+".ab....bbcb#",
+".ab.bbbbbcb#",
+".ab.ccccccb#",
+".bbbbbbbbbb#",
+"############"};

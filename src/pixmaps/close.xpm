@@ -1,0 +1,19 @@
+/* XPM */
+static char*tclose[]={
+"12 12 4 1",
+"a c #808080",
+"b c #b0b0b0",
+". c #000000",
+"# c #ffffff",
+"...........#",
+".aaaaaaaaab#",
+".abbbbbbbbb#",
+".abbbbbbbbb#",
+".ab..bbb..b#",
+".abb..b..bb#",
+".abbb...bbb#",
+".abbb...bbb#",
+".abb..b..bb#",
+".ab..bbb..b#",
+".bbbbbbbbbb#",
+"############"};
